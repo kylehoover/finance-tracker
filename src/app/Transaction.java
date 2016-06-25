@@ -4,51 +4,54 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Transaction
-{
+public class Transaction {
   // static variables
   private static int currentID = 0;
 
   // instance variables
   private final int id;
-
   private final double amount;
-
   private final Date date;
   private final String description;
   private final String location;
   private final String vendor;
+  private final Account account;
+  private final Type type;
 
-  // Category
-
-  // enums
-  // account type: savings, checking, credit
-  // transaction type: withdrawal, deposit ... credit => advance, payment (probably exclude these)
-
-  private Transaction(Builder builder)
-  {
+  private Transaction(Builder builder) {
     id = currentID++;
     amount = builder.amount;
     date = builder.date;
     description = builder.description;
     location = builder.location;
     vendor = builder.vendor;
+    account = builder.account;
+    type = builder.type;
   }
 
   // getter methods
-  public int getID()
-  {
+  public int getID() {
     return id;
   }
 
-  public String toString()
-  {
+  public String toString() {
     SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
-    return getClass().getName() + "[id=" + id + ",amount=" + amount + ",date=" + sdf.format(date) + ",description=" + description + ",location=" + location + ",vendor=" + vendor + "]";
+    return getClass().getName() + "[id=" + id + ",amount=" + amount + ",date=" + sdf.format(date) + ",description=" + description + ",location=" + location + ",vendor=" + vendor + ",account=" + account + ",type=" + type + "]";
   }
 
-  public static class Builder
-  {
+
+  // eunms
+  public enum Account {
+    CHECKING, CREDIT, SAVINGS
+  }
+
+  public enum Type {
+    DEPOSIT, WITHDRAWAL
+  }
+
+
+  // builder class
+  public static class Builder {
     // required parameters
     private final double amount;
     private final Date date;
@@ -57,14 +60,18 @@ public class Transaction
     // optional parameters
     private String description = "";
     private String location = "";
+    private Account account = Account.CREDIT;
+    private Type type = Type.WITHDRAWAL;
 
-    public Builder(String vendor, double amount, String date)
-    {
+    public Builder(String vendor, double amount, String date) {
       this.amount = amount;
       this.vendor = vendor;
+      this.account = account;
 
+      // format date
       SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
       Date d;
+
       try {
         d = sdf.parse(date);
       } catch (ParseException e) {
@@ -74,20 +81,27 @@ public class Transaction
       this.date = d;
     }
 
-    public Builder description(String description)
-    {
+    public Builder description(String description) {
       this.description = description;
       return this;
     }
 
-    public Builder location(String location)
-    {
+    public Builder location(String location) {
       this.location = location;
       return this;
     }
 
-    public Transaction build()
-    {
+    public Builder account(Account account) {
+      this.account = account;
+      return this;
+    }
+
+    public Builder type(Type type) {
+        this.type = type;
+        return this;
+    }
+
+    public Transaction build() {
       return new Transaction(this);
     }
   }
