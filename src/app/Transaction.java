@@ -17,6 +17,7 @@ public class Transaction {
   private final String vendor;
   private final Account account;
   private final Type type;
+  private final Categories categories;
 
   private Transaction(Builder builder) {
     id = currentID++;
@@ -27,16 +28,13 @@ public class Transaction {
     vendor = builder.vendor;
     account = builder.account;
     type = builder.type;
-  }
-
-  // getter methods
-  public int getID() {
-    return id;
+    categories = builder.categories;
   }
 
   public String toString() {
     SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
-    return getClass().getName() + "[id=" + id + ",amount=" + amount + ",date=" + sdf.format(date) + ",description=" + description + ",location=" + location + ",vendor=" + vendor + ",account=" + account + ",type=" + type + "]";
+    return getClass().getName() + "[id=" + id + ",amount=" + amount + ",date=" + sdf.format(date) + ",description=" + description + ",location=" + location
+           + ",vendor=" + vendor + ",account=" + account + ",type=" + type + ",categories=" + categories.toString() + "]";
   }
 
 
@@ -62,11 +60,11 @@ public class Transaction {
     private String location = "";
     private Account account = Account.CREDIT;
     private Type type = Type.WITHDRAWAL;
+    private Categories categories = new Categories("other");
 
     public Builder(String vendor, double amount, String date) {
       this.amount = amount;
       this.vendor = vendor;
-      this.account = account;
 
       // format date
       SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
@@ -99,6 +97,11 @@ public class Transaction {
     public Builder type(Type type) {
         this.type = type;
         return this;
+    }
+
+    public Builder categories(String... args) {
+      this.categories = new Categories(args);
+      return this;
     }
 
     public Transaction build() {
