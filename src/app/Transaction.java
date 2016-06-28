@@ -19,6 +19,7 @@ public class Transaction {
   private final Type type;
   private final Categories categories;
 
+  // constructor
   private Transaction(Builder builder) {
     id = currentID++;
     amount = builder.amount;
@@ -60,7 +61,7 @@ public class Transaction {
     private String location = "";
     private Account account = Account.CREDIT;
     private Type type = Type.WITHDRAWAL;
-    private Categories categories = new Categories("other");
+    private Categories categories = new Categories();
 
     public Builder(String vendor, double amount, String date) {
       this.amount = amount;
