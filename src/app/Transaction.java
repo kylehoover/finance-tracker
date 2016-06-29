@@ -2,6 +2,7 @@ package src.app;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Transaction {
@@ -17,7 +18,7 @@ public class Transaction {
   private final String vendor;
   private final Account account;
   private final Type type;
-  private final Categories categories;
+  private final ArrayList<String> categories;
 
   // constructor
   private Transaction(Builder builder) {
@@ -61,7 +62,7 @@ public class Transaction {
     private String location = "";
     private Account account = Account.CREDIT;
     private Type type = Type.WITHDRAWAL;
-    private Categories categories = new Categories();
+    private ArrayList<String> categories = new ArrayList<>();
 
     public Builder(String vendor, double amount, String date) {
       this.amount = amount;
@@ -96,12 +97,14 @@ public class Transaction {
     }
 
     public Builder type(Type type) {
-        this.type = type;
-        return this;
+      this.type = type;
+      return this;
     }
 
     public Builder categories(String... args) {
-      this.categories = new Categories(args);
+      for (String s : args) {
+        this.categories.add(s);
+      }
       return this;
     }
 

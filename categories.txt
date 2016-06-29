@@ -1,0 +1,35 @@
+Main
+  - Secondary => further subcategories
+
+Education
+  - Fee, Supplies
+  - Textbooks
+  - Tuition
+Food
+  - Dining out => sit down, fast food, snack, dessert
+  - Groceries
+Housing
+  - Mortgage
+  - Rent
+  - Utilities => city (electric, water, waste), gas, phone, internet
+Income
+  - Financial aid => grants, scholarships, loans
+  - Gift
+  - Investment => interest earned, dividends
+  - Paycheck
+  - Reimbursement => tax refunds, store refunds
+Other
+  - Church donation => tithing, fast offering, etc
+  - Gift => birthday, wedding, baby shower, holiday, anniversary, just because (include who it was for)
+  - Insurance => health, auto, renters, life
+  - Savings => retirement, investments, emergency fund, reserve funds
+Personal
+  - Clothing => type
+  - Entertainment => books, movies, sporting events
+  - Haircut
+  - Misc
+Transportation
+  - Accessory
+  - Fee => ticket
+  - Gas
+  - Maintenance
