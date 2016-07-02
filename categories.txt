@@ -2,7 +2,8 @@ Main
   - Secondary => further subcategories
 
 Education
-  - Fee, Supplies
+  - Fee
+  - Supplies
   - Textbooks
   - Tuition
 Food
