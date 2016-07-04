@@ -1,5 +1,9 @@
 package src.app;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class App {
@@ -19,9 +23,11 @@ public class App {
 
   public void menu() {
     boolean loop = true;
+
+    System.out.print("Finance Tracker\n\n");
+
     while (loop) {
-      System.out.print("Finance Tracker\n\n" +
-                       "Menu\n" +
+      System.out.print("Menu\n" +
                        "1) Add Transaction\n" +
                        "2) Exit\n\n" +
                        "Selection: ");
@@ -30,13 +36,13 @@ public class App {
       System.out.print("\n\n");
 
       switch (selection) {
-        case 1: add(); break;
+        case 1: addTransaction(); break;
         case 2: loop = false;
       }
     }
   }
 
-  private void add() {
+  private void addTransaction() {
     System.out.print("Vendor: ");
     String vendor = in.next();
 
@@ -46,7 +52,26 @@ public class App {
     System.out.print("Date (m/d/yyyy): ");
     String date = in.next();
 
-    Transaction.Builder builder = new Transaction.Builder(vendor, amount, date);
+    // format date
+    if (date.length() <= 5)
+      date += "/" + Calendar.getInstance().get(Calendar.YEAR);
+
+    SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
+    Date d;
+
+    try {
+      d = sdf.parse(date);
+    } catch (ParseException e) {
+      System.out.println(e);
+      return;
+    }
+
+    // get year to add to workbook
+    Calendar c = Calendar.getInstance();
+    c.setTime(d);
+    int year = c.get(Calendar.YEAR);
+
+    Transaction.Builder builder = new Transaction.Builder(amount, d, vendor);
 
     System.out.print("Location: ");
     String location = in.next();
@@ -64,14 +89,12 @@ public class App {
     if (!s.isEmpty()) {
       choice = Integer.parseInt(s);
       Transaction.Account account;
-
       switch (choice) {
         case 1: account = Transaction.Account.SAVINGS; break;
         case 2: account = Transaction.Account.CHECKING; break;
         case 3:
         default: account =Transaction.Account.CREDIT; break;
       }
-
       builder.account(account);
     }
 
@@ -110,8 +133,8 @@ public class App {
 
     builder.categories(main, secondary, subcategories);
 
-    Transaction tr = builder.build();
-    System.out.println(tr.toString());
-
+    Transaction t = builder.build();
+    if (workbook.add(year, t))
+      System.out.println("\nTransaction successfully added\n");
   }
 }

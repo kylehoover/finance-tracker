@@ -1,6 +1,5 @@
 package src.app;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,21 +63,10 @@ public class Transaction {
     private Type type = Type.WITHDRAWAL;
     private ArrayList<String> categories = new ArrayList<>();
 
-    public Builder(String vendor, double amount, String date) {
+    public Builder(double amount, Date date, String vendor) {
       this.amount = amount;
       this.vendor = vendor;
-
-      // format date
-      SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
-      Date d;
-
-      try {
-        d = sdf.parse(date);
-      } catch (ParseException e) {
-        d = null;
-      }
-
-      this.date = d;
+      this.date = date;
     }
 
     public Builder description(String description) {
