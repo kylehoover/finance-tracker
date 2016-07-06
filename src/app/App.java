@@ -21,6 +21,11 @@ public class App {
 
   // member functions
 
+  public void run() {
+    menu();
+    workbook.print();
+  }
+
   public void menu() {
     boolean loop = true;
 
@@ -134,7 +139,10 @@ public class App {
     builder.categories(main, secondary, subcategories);
 
     Transaction t = builder.build();
+
     if (workbook.add(year, t))
       System.out.println("\nTransaction successfully added\n");
+    else
+      System.out.println("\nAn error occurred while trying to add the transaction");
   }
 }

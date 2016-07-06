@@ -18,6 +18,6 @@ public class Main {
     // System.out.println();
 
     App app = new App();
-    app.menu();
+    app.run();
   }
 }
