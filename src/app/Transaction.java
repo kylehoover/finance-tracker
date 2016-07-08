@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Transaction {
+public class Transaction implements Comparable<Transaction> {
   // static variables
   private static int currentID = 0;
 
@@ -36,6 +36,34 @@ public class Transaction {
     SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
     return getClass().getName() + "[id=" + id + ",amount=" + amount + ",date=" + sdf.format(date) + ",description=" + description + ",location=" + location
            + ",vendor=" + vendor + ",account=" + account + ",type=" + type + ",categories=" + categories.toString() + "]";
+  }
+
+  // override compareTo method from Comparable interface
+  public int compareTo(Transaction other) {
+    if (this == other)
+      return 0;
+
+    int result = this.date.compareTo(other.date);
+
+    if (result == 0)
+      result = this.vendor.compareTo(other.vendor);
+
+    if (result == 0) {
+      if (this.amount < other.amount)
+        result = -1;
+      else if (this.amount > other.amount)
+        result = 1;
+      else {
+        if (this.id < other.id)
+          result = -1;
+        else if (this.id > other.id)
+          result = 1;
+        else
+          result = 0;
+      }
+    }
+
+    return result;
   }
 
 

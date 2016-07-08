@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class App {
@@ -52,7 +53,13 @@ public class App {
     String vendor = in.next();
 
     System.out.print("Amount: ");
-    Double amount = in.nextDouble();
+    Double amount;
+    try {
+      amount = in.nextDouble();
+    } catch (InputMismatchException e) {
+      System.out.println(e);
+      return;
+    }
 
     System.out.print("Date (m/d/yyyy): ");
     String date = in.next();
@@ -144,5 +151,7 @@ public class App {
       System.out.println("\nTransaction successfully added\n");
     else
       System.out.println("\nAn error occurred while trying to add the transaction");
+
+    workbook.print();
   }
 }

@@ -8,21 +8,18 @@ import java.util.TreeSet;
 
 public class Workbook {
   // instance variables
-  Map<Integer, ArrayList<Transaction>> transactions;
-  Set<Transaction> st;
+  Map<Integer, Set<Transaction>> transactions;
 
   // constructor
   public Workbook() {
     transactions = new HashMap<>();
-    st = new TreeSet<>();
   }
 
   // member functions
 
   public boolean add(int year, Transaction t) {
-    transactions.putIfAbsent(year, new ArrayList<Transaction>());
+    transactions.putIfAbsent(year, new TreeSet<Transaction>());
     transactions.get(year).add(t);
-    st.add(t);
     return true;
   }
 
