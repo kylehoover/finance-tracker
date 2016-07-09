@@ -35,8 +35,6 @@ public class App {
 
     menu();
 
-    workbook.print();
-
     try {
       workbook.exportData("./data/test.ser");
     } catch (IOException e) {
@@ -52,7 +50,8 @@ public class App {
     while (loop) {
       System.out.print("Menu\n" +
                        "1) Add Transaction\n" +
-                       "2) Exit\n\n" +
+                       "2) Display\n" +
+                       "3) Exit\n\n" +
                        "Selection: ");
 
       int selection = in.nextInt();
@@ -60,7 +59,8 @@ public class App {
 
       switch (selection) {
         case 1: addTransaction(); break;
-        case 2: loop = false;
+        case 2: display(); break;
+        case 3: loop = false;
       }
     }
   }
@@ -174,7 +174,15 @@ public class App {
       System.out.println("\nTransaction successfully added\n");
     else
       System.out.println("\nAn error occurred while trying to add the transaction");
+  }
 
+  public void display() {
+    System.out.println("\u001b[2J" + "\u001b[H");
+    System.out.flush();
     workbook.print();
+    System.out.println("\n\n");
+    System.out.print("Continue?");
+    String s = in.next();
+    System.out.println("\n\n");
   }
 }

@@ -4,16 +4,14 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class Transaction implements Comparable<Transaction>, Serializable {
-  // static variables
-  private static int currentID = 0;
-
   // instance variables
-  private final int id;
   private final double amount;
   private final Date date;
   private final String description;
+  private final String id;
   private final String location;
   private final String vendor;
   private final Account account;
@@ -22,10 +20,10 @@ public class Transaction implements Comparable<Transaction>, Serializable {
 
   // constructor
   private Transaction(Builder builder) {
-    id = currentID++;
     amount = builder.amount;
     date = builder.date;
     description = builder.description;
+    id = UUID.randomUUID().toString();
     location = builder.location;
     vendor = builder.vendor;
     account = builder.account;
@@ -33,9 +31,34 @@ public class Transaction implements Comparable<Transaction>, Serializable {
     categories = builder.categories;
   }
 
+  // getter methods
+  public final double getAmount() {
+    return amount;
+  }
+
+  public final Date getDate() {
+    return date;
+  }
+
+  public final String getDescription() {
+    return description;
+  }
+
+  public final String getLocation() {
+    return location;
+  }
+
+  public final String getVendor() {
+    return vendor;
+  }
+
+  public final ArrayList<String> getCategories() {
+    return categories;
+  }
+
   public String toString() {
     SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
-    return getClass().getName() + "[id=" + id + ",amount=" + amount + ",date=" + sdf.format(date) + ",description=" + description + ",location=" + location
+    return getClass().getName() + "[amount=" + amount + ",date=" + sdf.format(date) + ",description=" + description + ",location=" + location
            + ",vendor=" + vendor + ",account=" + account + ",type=" + type + ",categories=" + categories.toString() + "]";
   }
 
@@ -55,12 +78,7 @@ public class Transaction implements Comparable<Transaction>, Serializable {
       else if (this.amount > other.amount)
         result = 1;
       else {
-        if (this.id < other.id)
-          result = -1;
-        else if (this.id > other.id)
-          result = 1;
-        else
-          result = 0;
+        result = this.id.compareTo(other.id);
       }
     }
 

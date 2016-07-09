@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.ClassNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +35,6 @@ public class Workbook {
     ObjectInputStream in = new ObjectInputStream(is);
     transactions = (Map<Integer, Set<Transaction>>) in.readObject();
 
-    System.out.println(transactions);
-
     in.close();
     is.close();
   }
@@ -49,9 +48,19 @@ public class Workbook {
   }
 
   public void print() {
-    transactions.forEach((y, t) -> {
-      System.out.println(y + ": " + t);
-    });
+    for (Map.Entry<Integer, Set<Transaction>> entry : transactions.entrySet()) {
+      Integer year = entry.getKey();
+      Set<Transaction> ts = entry.getValue();
+
+      System.out.println("Date\t\tVendor\t\tAmount");
+      System.out.println("----\t\t------\t------");
+
+      SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
+
+      for (Transaction t : ts) {
+        System.out.println(sdf.format(t.getDate()) + "\t" + t.getVendor() + "\t\t" + t.getAmount());
+      }
+    }
   }
 
 }
