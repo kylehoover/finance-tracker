@@ -1,5 +1,11 @@
 package src.app;
 
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.ClassNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,21 +29,23 @@ public class Workbook {
     return true;
   }
 
-  public boolean importData(String filename) {
+  public void importData(String filename) throws ClassNotFoundException, IOException {
+    FileInputStream is = new FileInputStream(filename);
+    ObjectInputStream in = new ObjectInputStream(is);
+    transactions = (Map<Integer, Set<Transaction>>) in.readObject();
 
+    System.out.println(transactions);
 
-
-
-    return true;
+    in.close();
+    is.close();
   }
 
-  public boolean exportData(String filename) {
-    // filewriter or printwriter
-    // bufferedwriter
-    // look into using json
-
-
-    return true;
+  public void exportData(String filename) throws IOException {
+    FileOutputStream os = new FileOutputStream(filename);
+    ObjectOutputStream out = new ObjectOutputStream(os);
+    out.writeObject(transactions);
+    out.close();
+    os.close();
   }
 
   public void print() {

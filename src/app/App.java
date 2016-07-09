@@ -1,5 +1,7 @@
 package src.app;
 
+import java.io.IOException;
+import java.lang.ClassNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,8 +25,23 @@ public class App {
   // member functions
 
   public void run() {
+    try {
+      workbook.importData("./data/test.ser");
+    } catch (IOException e) {
+      System.out.println(e);
+    } catch (ClassNotFoundException e) {
+      System.out.println(e);
+    }
+
     menu();
+
     workbook.print();
+
+    try {
+      workbook.exportData("./data/test.ser");
+    } catch (IOException e) {
+      System.out.println(e);
+    }
   }
 
   public void menu() {
@@ -53,11 +70,13 @@ public class App {
     String vendor = in.next();
 
     System.out.print("Amount: ");
-    Double amount;
+    Double amount = 0.0;
+
     try {
       amount = in.nextDouble();
     } catch (InputMismatchException e) {
-      System.out.println(e);
+      System.out.print("\nERROR: Invalid input. Please try again and enter a numebr.\n\n");
+      in = new Scanner(System.in);
       return;
     }
 
@@ -118,7 +137,11 @@ public class App {
     }
 
     System.out.print("Main Category => (1) Education (2) Food (3) Housing (4) Income (5) Other (6) Personal (7) Transportation: ");
-    choice = in.nextInt();
+    s = in.next();
+    if (!s.isEmpty())
+      choice = Integer.parseInt(s);
+    else
+      choice = 0;
     String main;
     switch (choice) {
       case 1: main = "education"; break;

@@ -1,10 +1,11 @@
 package src.app;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Transaction implements Comparable<Transaction> {
+public class Transaction implements Comparable<Transaction>, Serializable {
   // static variables
   private static int currentID = 0;
 
