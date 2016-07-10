@@ -170,7 +170,7 @@ public class App {
 
     Transaction t = builder.build();
 
-    if (workbook.add(year, t))
+    if (workbook.add(year, t) != null)
       System.out.println("\nTransaction successfully added\n");
     else
       System.out.println("\nAn error occurred while trying to add the transaction");
@@ -179,10 +179,13 @@ public class App {
   public void display() {
     System.out.println("\u001b[2J" + "\u001b[H");
     System.out.flush();
-    workbook.print();
-    System.out.println("\n\n");
-    System.out.print("Continue?");
+
+    double[] n = { 2600.34, 2002.52, 34, 76, 12, 543, 56, 879, 22 };
+    workbook.printSummary(n);
+
+    System.out.print("\n\n");
+    System.out.print("Continue? ");
     String s = in.next();
-    System.out.println("\n\n");
+    System.out.print("\n\n");
   }
 }
