@@ -17,14 +17,19 @@ public class App {
   // constructor
   public App() {
     in = new Scanner(System.in);
-    workbook = new Workbook();
-
     in.useDelimiter("\\n");
+    workbook = new Workbook();
   }
 
   // member functions
 
   public void run() {
+    init();
+    menu();
+    exit();
+  }
+
+  private void init() {
     try {
       workbook.importData("./data/test.ser");
     } catch (IOException e) {
@@ -32,9 +37,9 @@ public class App {
     } catch (ClassNotFoundException e) {
       System.out.println(e);
     }
+  }
 
-    menu();
-
+  private void exit() {
     try {
       workbook.exportData("./data/test.ser");
     } catch (IOException e) {
@@ -42,7 +47,7 @@ public class App {
     }
   }
 
-  public void menu() {
+  private void menu() {
     boolean loop = true;
 
     System.out.print("Finance Tracker\n\n");
@@ -176,12 +181,14 @@ public class App {
       System.out.println("\nAn error occurred while trying to add the transaction");
   }
 
-  public void display() {
+  private void display() {
     System.out.println("\u001b[2J" + "\u001b[H");
     System.out.flush();
 
-    double[] n = { 2600.34, 2002.52, 34, 76, 12, 543, 56, 879, 22 };
-    workbook.printSummary(n);
+    // double[] n = { 2600.34, 2002.52, 34, 76, 12, 543, 56, 879, 22 };
+    // workbook.printSummary(n);
+
+    workbook.printMonth(2016, 6);
 
     System.out.print("\n\n");
     System.out.print("Continue? ");

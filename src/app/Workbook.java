@@ -32,27 +32,27 @@ public class Workbook {
   }
 
   public void importData(String filename) throws ClassNotFoundException, IOException {
-    FileInputStream is = new FileInputStream(filename);
-    ObjectInputStream in = new ObjectInputStream(is);
+    FileInputStream fis = new FileInputStream(filename);
+    ObjectInputStream in = new ObjectInputStream(fis);
     transactions = (Map<Integer, Set<Transaction>>) in.readObject();
     in.close();
-    is.close();
+    fis.close();
   }
 
   public void exportData(String filename) throws IOException {
-    FileOutputStream os = new FileOutputStream(filename);
-    ObjectOutputStream out = new ObjectOutputStream(os);
+    FileOutputStream fos = new FileOutputStream(filename);
+    ObjectOutputStream out = new ObjectOutputStream(fos);
     out.writeObject(transactions);
     out.close();
-    os.close();
+    fos.close();
   }
 
   public void print(Set<Transaction> set, String title) {
-    System.out.print(title + "\n\n");
+    System.out.print("Display - " + title + "\n\n");
     System.out.printf("%-15s %-40s %-15s %-30s %n", "Date", "Vendor", "Amount", "Description");
     System.out.printf("%-15s %-40s %-15s %-30s %n", "----", "------", "------", "-----------");
 
-    SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
+    SimpleDateFormat sdf = new SimpleDateFormat("M/d");
 
     for (Transaction t : set) {
       System.out.printf("%-15s %-40s %-15.2f %-30s %n", sdf.format(t.getDate()), t.getVendor(), t.getAmount(), t.getDescription());
