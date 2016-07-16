@@ -55,8 +55,9 @@ public class App {
     while (loop) {
       System.out.print("Menu\n" +
                        "1) Add Transaction\n" +
-                       "2) Display\n" +
-                       "3) Exit\n\n" +
+                       "2) Display All\n" +
+                       "3) Display Summary\n" +
+                       "4) Exit\n\n" +
                        "Selection: ");
 
       int selection = in.nextInt();
@@ -64,8 +65,10 @@ public class App {
 
       switch (selection) {
         case 1: addTransaction(); break;
-        case 2: display(); break;
-        case 3: loop = false;
+        case 2: displayAll(); break;
+        case 3: displaySummary(); break;
+        case 4: loop = false;
+        default: break;
       }
     }
   }
@@ -181,14 +184,71 @@ public class App {
       System.out.println("\nAn error occurred while trying to add the transaction");
   }
 
-  private void display() {
+  private void displayAll() {
+    System.out.print("Display options: ");
+
+    String input = in.next();
+
+    if (input.isEmpty()) {
+      System.out.print("\nERROR: Invalid input. Please enter a year, and optionally a month.\n\n");
+      return;
+    }
+
+    int indexOfSpace = input.indexOf(' ');
+    int year = -1;
+    int month = -1;
+
+    if (indexOfSpace == -1) {
+      year = Integer.parseInt(input);
+    } else {
+      year = Integer.parseInt(input.substring(0, indexOfSpace));
+      month = Integer.parseInt(input.substring(indexOfSpace + 1));
+    }
+
     System.out.println("\u001b[2J" + "\u001b[H");
     System.out.flush();
 
-    // double[] n = { 2600.34, 2002.52, 34, 76, 12, 543, 56, 879, 22 };
-    // workbook.printSummary(n);
+    if (month == -1) {
+      workbook.printYear(year);
+    } else {
+      workbook.printMonth(year, month - 1);
+    }
 
-    workbook.printMonth(2016, 6);
+    System.out.print("\n\n");
+    System.out.print("Continue? ");
+    String s = in.next();
+    System.out.print("\n\n");
+  }
+
+  private void displaySummary() {
+    System.out.print("Display options: ");
+
+    String input = in.next();
+
+    if (input.isEmpty()) {
+      System.out.print("\nERROR: Invalid input. Please enter a year, and optionally a month.\n\n");
+      return;
+    }
+
+    int indexOfSpace = input.indexOf(' ');
+    int year = -1;
+    int month = -1;
+
+    if (indexOfSpace == -1) {
+      year = Integer.parseInt(input);
+    } else {
+      year = Integer.parseInt(input.substring(0, indexOfSpace));
+      month = Integer.parseInt(input.substring(indexOfSpace + 1));
+    }
+
+    System.out.println("\u001b[2J" + "\u001b[H");
+    System.out.flush();
+
+    if (month == -1) {
+      workbook.printYear(year);
+    } else {
+      workbook.printMonth(year, month - 1);
+    }
 
     System.out.print("\n\n");
     System.out.print("Continue? ");

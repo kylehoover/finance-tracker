@@ -47,7 +47,7 @@ public class Workbook {
     fos.close();
   }
 
-  public void print(Set<Transaction> set, String title) {
+  private void print(Set<Transaction> set, String title) {
     System.out.print("Display - " + title + "\n\n");
     System.out.printf("%-15s %-40s %-15s %-30s %n", "Date", "Vendor", "Amount", "Description");
     System.out.printf("%-15s %-40s %-15s %-30s %n", "----", "------", "------", "-----------");
@@ -59,25 +59,16 @@ public class Workbook {
     }
   }
 
-  public void printSummary(double[] numbers) {
-    //System.out.print(title + "\n\n");
-    // System.out.printf("%-20s %.2f %n", "Total income:", numbers[0]);
-    // System.out.printf("%50s %+.2f %n", "Difference:", numbers[0] - numbers[1]);
-    // System.out.printf("%-20s %.2f %n%n%n", "Total expenses:", numbers[1]);
-    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", "Income", "Expenses", "Difference", "Education", "Food", "Housing", "Income", "Other", "Personal", "Transportation");
-    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", "------", "--------", "----------", "---------", "----", "-------", "------", "-----", "--------", "--------------");
-    System.out.printf("%-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %n", numbers[0], numbers[1], numbers[0] - numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
-
-  }
-
   public void printMonth(int year, int month) {
     Set<Transaction> subset = new TreeSet<>();
     Calendar c = Calendar.getInstance();
 
-    for (Transaction t : transactions.get(year)) {
-      c.setTime(t.getDate());
-      if (c.get(Calendar.MONTH) == month) {
-        subset.add(t);
+    if (transactions.get(year) != null) {
+      for (Transaction t : transactions.get(year)) {
+        c.setTime(t.getDate());
+        if (c.get(Calendar.MONTH) == month) {
+          subset.add(t);
+        }
       }
     }
 
@@ -90,9 +81,27 @@ public class Workbook {
   }
 
   public void printYear(int year) {
-    print(transactions.get(year), Integer.toString(year));
+    Set<Transaction> subset;;
+
+    if (transactions.get(year) != null) {
+      subset = transactions.get(year);
+    } else {
+      subset = new TreeSet<>();
+    }
+
+    print(subset, Integer.toString(year));
   }
 
+  public void printSummary(double[] numbers) {
+    //System.out.print(title + "\n\n");
+    // System.out.printf("%-20s %.2f %n", "Total income:", numbers[0]);
+    // System.out.printf("%50s %+.2f %n", "Difference:", numbers[0] - numbers[1]);
+    // System.out.printf("%-20s %.2f %n%n%n", "Total expenses:", numbers[1]);
+    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", "Income", "Expenses", "Difference", "Education", "Food", "Housing", "Income", "Other", "Personal", "Transportation");
+    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", "------", "--------", "----------", "---------", "----", "-------", "------", "-----", "--------", "--------------");
+    System.out.printf("%-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %n", numbers[0], numbers[1], numbers[0] - numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
+
+  }
 }
 
 // iterate over map

@@ -8,32 +8,40 @@ import java.util.UUID;
 
 public class Transaction implements Comparable<Transaction>, Serializable {
   // instance variables
+  private final Account account;
   private final double amount;
+  private final ArrayList<String> categories;
   private final Date date;
   private final String description;
   private final String id;
   private final String location;
-  private final String vendor;
-  private final Account account;
   private final Type type;
-  private final ArrayList<String> categories;
+  private final String vendor;
 
   // constructor
   private Transaction(Builder builder) {
+    account = builder.account;
     amount = builder.amount;
+    categories = builder.categories;
     date = builder.date;
     description = builder.description;
     id = UUID.randomUUID().toString();
     location = builder.location;
-    vendor = builder.vendor;
-    account = builder.account;
     type = builder.type;
-    categories = builder.categories;
+    vendor = builder.vendor;
   }
 
   // getter methods
+  public final Account getAccount() {
+    return account;
+  }
+
   public final double getAmount() {
     return amount;
+  }
+
+  public final ArrayList<String> getCategories() {
+    return categories;
   }
 
   public final Date getDate() {
@@ -44,16 +52,20 @@ public class Transaction implements Comparable<Transaction>, Serializable {
     return description;
   }
 
+  public final String getId() {
+    return id;
+  }
+
   public final String getLocation() {
     return location;
   }
 
-  public final String getVendor() {
-    return vendor;
+  public final Type getType() {
+    return type;
   }
 
-  public final ArrayList<String> getCategories() {
-    return categories;
+  public final String getVendor() {
+    return vendor;
   }
 
   public String toString() {
