@@ -60,8 +60,14 @@ public class App {
                        "4) Exit\n\n" +
                        "Selection: ");
 
-      int selection = in.nextInt();
+      String input = in.next();
       System.out.print("\n\n");
+
+      int selection = 0;
+
+      if (!input.isEmpty()) {
+        selection = Integer.parseInt(input);
+      }
 
       switch (selection) {
         case 1: addTransaction(); break;
@@ -211,7 +217,7 @@ public class App {
     if (month == -1) {
       workbook.printYear(year);
     } else {
-      workbook.printMonth(year, month - 1);
+      workbook.printMonth(year, month);
     }
 
     System.out.print("\n\n");
@@ -245,9 +251,9 @@ public class App {
     System.out.flush();
 
     if (month == -1) {
-      workbook.printYear(year);
+      workbook.printSummaryYear(year);
     } else {
-      workbook.printMonth(year, month - 1);
+      workbook.printSummaryMonth(year, month);
     }
 
     System.out.print("\n\n");

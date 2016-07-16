@@ -60,47 +60,127 @@ public class Workbook {
   }
 
   public void printMonth(int year, int month) {
-    Set<Transaction> subset = new TreeSet<>();
-    Calendar c = Calendar.getInstance();
-
-    if (transactions.get(year) != null) {
-      for (Transaction t : transactions.get(year)) {
-        c.setTime(t.getDate());
-        if (c.get(Calendar.MONTH) == month) {
-          subset.add(t);
-        }
-      }
-    }
-
+    month -= 1;
     DateFormatSymbols dfs = new DateFormatSymbols();
     String[] months = dfs.getMonths();
     String monthAsString = months[month];
     String title = monthAsString + " " + year;
 
+    if (transactions.get(year) == null) {
+      noData(title);
+      return;
+    }
+
+    Set<Transaction> subset = new TreeSet<>();
+    Calendar c = Calendar.getInstance();
+
+    for (Transaction t : transactions.get(year)) {
+      c.setTime(t.getDate());
+      if (c.get(Calendar.MONTH) == month) {
+        subset.add(t);
+      }
+    }
+
     print(subset, title);
   }
 
   public void printYear(int year) {
-    Set<Transaction> subset;;
+    String title = Integer.toString(year);
 
-    if (transactions.get(year) != null) {
-      subset = transactions.get(year);
-    } else {
-      subset = new TreeSet<>();
+    if (transactions.get(year) == null) {
+      noData(title);
+      return;
     }
 
-    print(subset, Integer.toString(year));
+    print(transactions.get(year), title);
   }
 
-  public void printSummary(double[] numbers) {
-    //System.out.print(title + "\n\n");
-    // System.out.printf("%-20s %.2f %n", "Total income:", numbers[0]);
-    // System.out.printf("%50s %+.2f %n", "Difference:", numbers[0] - numbers[1]);
-    // System.out.printf("%-20s %.2f %n%n%n", "Total expenses:", numbers[1]);
-    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", "Income", "Expenses", "Difference", "Education", "Food", "Housing", "Income", "Other", "Personal", "Transportation");
-    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", "------", "--------", "----------", "---------", "----", "-------", "------", "-----", "--------", "--------------");
-    System.out.printf("%-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %n", numbers[0], numbers[1], numbers[0] - numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
+  private void printSummary(double[] numbers, String title) {
+    System.out.print("Display Summary - " + title + "\n\n");
+    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", "Income", "Expenses", "Difference", "Education", "Food", "Housing", "Other", "Personal", "Transportation");
+    System.out.printf("%-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", "------", "--------", "----------", "---------", "----", "-------", "-----", "--------", "--------------");
+    System.out.printf("%-15.2f %-15.2f %-+15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %-15.2f %n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7], numbers[8]);
+  }
 
+  public void printSummaryMonth(int year, int month) {
+    month -= 1;
+    DateFormatSymbols dfs = new DateFormatSymbols();
+    String[] months = dfs.getMonths();
+    String monthAsString = months[month];
+    String title = monthAsString + " " + year;
+
+    if (transactions.get(year) == null) {
+      noData(title);
+      return;
+    }
+
+    double[] summaries = new double[9];
+    Calendar c = Calendar.getInstance();
+
+    for (Transaction t : transactions.get(year)) {
+      c.setTime(t.getDate());
+
+      if (c.get(Calendar.MONTH) == month) {
+        double amount = t.getAmount();
+
+        if (t.getType() == Transaction.Type.DEPOSIT) {
+          summaries[0] += amount;
+        } else {
+          summaries[1] += amount;
+        }
+
+        switch(t.getCategories().get(0)) {
+          case "education": summaries[3] += amount; break;
+          case "food": summaries[4] += amount; break;
+          case "housing": summaries[5] += amount; break;
+          case "other": summaries[6] += amount; break;
+          case "personal": summaries[7] += amount; break;
+          case "transportation": summaries[8] += amount; break;
+        }
+      }
+    }
+
+    summaries[2] = summaries[0] - summaries[1];
+
+    printSummary(summaries, title);
+  }
+
+  public void printSummaryYear(int year) {
+    String title = Integer.toString(year);
+
+    if (transactions.get(year) == null) {
+      noData(title);
+      return;
+    }
+
+    double[] summaries = new double[9];
+
+    for (Transaction t : transactions.get(year)) {
+      double amount = t.getAmount();
+
+      if (t.getType() == Transaction.Type.DEPOSIT) {
+        summaries[0] += amount;
+      } else {
+        summaries[1] += amount;
+      }
+
+      switch(t.getCategories().get(0)) {
+        case "education": summaries[3] += amount; break;
+        case "food": summaries[4] += amount; break;
+        case "housing": summaries[5] += amount; break;
+        case "other": summaries[6] += amount; break;
+        case "personal": summaries[7] += amount; break;
+        case "transportation": summaries[8] += amount; break;
+      }
+    }
+
+    summaries[2] = summaries[0] - summaries[1];
+
+    printSummary(summaries, title);
+  }
+
+  private void noData(String title) {
+    System.out.print("ERROR: No data found for " + title + "\n");
   }
 }
 
