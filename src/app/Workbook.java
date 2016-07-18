@@ -25,7 +25,10 @@ public class Workbook {
 
   // member functions
 
-  public Transaction add(int year, Transaction t) {
+  public Transaction add(Transaction t) {
+    Calendar c = Calendar.getInstance();
+    c.setTime(t.getDate());
+    int year = c.get(Calendar.YEAR);
     transactions.putIfAbsent(year, new TreeSet<Transaction>());
     transactions.get(year).add(t);
     return t;

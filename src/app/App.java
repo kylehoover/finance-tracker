@@ -83,20 +83,6 @@ public class App {
   }
 
   private void addTransaction() {
-    System.out.print("Vendor: ");
-    String vendor = in.next();
-
-    System.out.print("Amount: ");
-    Double amount = 0.0;
-
-    try {
-      amount = in.nextDouble();
-    } catch (InputMismatchException e) {
-      System.out.print("\nERROR: Invalid input. Please try again and enter a numebr.\n\n");
-      in = new Scanner(System.in);
-      return;
-    }
-
     System.out.print("Date (m/d/yyyy): ");
     String date = in.next();
 
@@ -114,10 +100,19 @@ public class App {
       return;
     }
 
-    // get year to add to workbook
-    Calendar c = Calendar.getInstance();
-    c.setTime(d);
-    int year = c.get(Calendar.YEAR);
+    System.out.print("Vendor: ");
+    String vendor = in.next();
+
+    System.out.print("Amount: ");
+    Double amount = 0.0;
+
+    try {
+      amount = in.nextDouble();
+    } catch (InputMismatchException e) {
+      System.out.print("\nERROR: Invalid input. Please try again and enter a numebr.\n\n");
+      in = new Scanner(System.in);
+      return;
+    }
 
     Transaction.Builder builder = new Transaction.Builder(amount, d, vendor);
 
@@ -187,7 +182,7 @@ public class App {
 
     Transaction t = builder.build();
 
-    if (workbook.add(year, t) != null)
+    if (workbook.add(t) != null)
       System.out.println("\nTransaction successfully added\n");
     else
       System.out.println("\nAn error occurred while trying to add the transaction");
