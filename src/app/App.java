@@ -1,5 +1,6 @@
 package src.app;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ClassNotFoundException;
 import java.text.ParseException;
@@ -31,17 +32,19 @@ public class App {
 
   private void init() {
     try {
-      workbook.importData("./data/test.ser");
-    } catch (IOException e) {
-      System.out.println(e);
+      workbook.importData("./data/transactions.ser");
     } catch (ClassNotFoundException e) {
+      System.out.println(e);
+    } catch (FileNotFoundException e) {
+      System.out.print("\nNo 'transactions.ser' file found. A new file will be created upon exit.\n\n");
+    } catch (IOException e) {
       System.out.println(e);
     }
   }
 
   private void exit() {
     try {
-      workbook.exportData("./data/test.ser");
+      workbook.exportData("./data/transactions.ser");
     } catch (IOException e) {
       System.out.println(e);
     }

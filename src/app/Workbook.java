@@ -60,19 +60,18 @@ public class Workbook {
   }
 
   public void printMonth(int year, int month) {
-    month -= 1;
-    DateFormatSymbols dfs = new DateFormatSymbols();
-    String[] months = dfs.getMonths();
-    String monthAsString = months[month];
-    String title = monthAsString + " " + year;
-
     if (transactions.get(year) == null) {
-      noData(title);
+      noData(Integer.toString(year));
       return;
     }
 
     Set<Transaction> subset = new TreeSet<>();
     Calendar c = Calendar.getInstance();
+    month -= 1;
+    DateFormatSymbols dfs = new DateFormatSymbols();
+    String[] months = dfs.getMonths();
+    String monthAsString = months[month];
+    String title = monthAsString + " " + year;
 
     for (Transaction t : transactions.get(year)) {
       c.setTime(t.getDate());
@@ -103,19 +102,18 @@ public class Workbook {
   }
 
   public void printSummaryMonth(int year, int month) {
-    month -= 1;
-    DateFormatSymbols dfs = new DateFormatSymbols();
-    String[] months = dfs.getMonths();
-    String monthAsString = months[month];
-    String title = monthAsString + " " + year;
-
     if (transactions.get(year) == null) {
-      noData(title);
+      noData(Integer.toString(year));
       return;
     }
 
     double[] summaries = new double[9];
     Calendar c = Calendar.getInstance();
+    month -= 1;
+    DateFormatSymbols dfs = new DateFormatSymbols();
+    String[] months = dfs.getMonths();
+    String monthAsString = months[month];
+    String title = monthAsString + " " + year;
 
     for (Transaction t : transactions.get(year)) {
       c.setTime(t.getDate());
