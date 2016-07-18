@@ -1,42 +1,100 @@
 package src.app;
 
-import java.text.ParseException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
-public class Transaction {
-  // static variables
-  private static int currentID = 0;
-
+public class Transaction implements Comparable<Transaction>, Serializable {
   // instance variables
-  private final int id;
+  private final Account account;
   private final double amount;
+  private final ArrayList<String> categories;
   private final Date date;
   private final String description;
+  private final String id;
   private final String location;
-  private final String vendor;
-  private final Account account;
   private final Type type;
-  private final ArrayList<String> categories;
+  private final String vendor;
 
   // constructor
   private Transaction(Builder builder) {
-    id = currentID++;
+    account = builder.account;
     amount = builder.amount;
+    categories = builder.categories;
     date = builder.date;
     description = builder.description;
+    id = UUID.randomUUID().toString();
     location = builder.location;
-    vendor = builder.vendor;
-    account = builder.account;
     type = builder.type;
-    categories = builder.categories;
+    vendor = builder.vendor;
+  }
+
+  // getter methods
+  public final Account getAccount() {
+    return account;
+  }
+
+  public final double getAmount() {
+    return amount;
+  }
+
+  public final ArrayList<String> getCategories() {
+    return categories;
+  }
+
+  public final Date getDate() {
+    return date;
+  }
+
+  public final String getDescription() {
+    return description;
+  }
+
+  public final String getId() {
+    return id;
+  }
+
+  public final String getLocation() {
+    return location;
+  }
+
+  public final Type getType() {
+    return type;
+  }
+
+  public final String getVendor() {
+    return vendor;
   }
 
   public String toString() {
     SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
-    return getClass().getName() + "[id=" + id + ",amount=" + amount + ",date=" + sdf.format(date) + ",description=" + description + ",location=" + location
+    return getClass().getName() + "[amount=" + amount + ",date=" + sdf.format(date) + ",description=" + description + ",location=" + location
            + ",vendor=" + vendor + ",account=" + account + ",type=" + type + ",categories=" + categories.toString() + "]";
+  }
+
+  // override compareTo method from Comparable interface
+  public int compareTo(Transaction other) {
+    if (this == other)
+      return 0;
+
+    int result = this.date.compareTo(other.date);
+
+    if (result == 0)
+      result = this.vendor.compareTo(other.vendor);
+
+    if (result == 0) {
+      if (this.amount < other.amount)
+        result = -1;
+      else if (this.amount > other.amount)
+        result = 1;
+      else {
+        result = this.id.compareTo(other.id);
+      }
+    }
+
+    return result;
   }
 
 
@@ -64,21 +122,10 @@ public class Transaction {
     private Type type = Type.WITHDRAWAL;
     private ArrayList<String> categories = new ArrayList<>();
 
-    public Builder(String vendor, double amount, String date) {
+    public Builder(double amount, Date date, String vendor) {
       this.amount = amount;
       this.vendor = vendor;
-
-      // format date
-      SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
-      Date d;
-
-      try {
-        d = sdf.parse(date);
-      } catch (ParseException e) {
-        d = null;
-      }
-
-      this.date = d;
+      this.date = date;
     }
 
     public Builder description(String description) {
