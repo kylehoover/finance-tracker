@@ -52,13 +52,13 @@ public class Workbook {
 
   private void print(Set<Transaction> set, String title) {
     System.out.print("Display - " + title + "\n\n");
-    System.out.printf("%-15s %-40s %-15s %-30s %n", "Date", "Vendor", "Amount", "Description");
-    System.out.printf("%-15s %-40s %-15s %-30s %n", "----", "------", "------", "-----------");
+    System.out.printf("%-15s %-40s %-15s %-20s %-30s %n", "Date", "Vendor", "Amount", "Main Category", "Description");
+    System.out.printf("%-15s %-40s %-15s %-20s %-30s %n", "----", "------", "------", "-------------", "-----------");
 
     SimpleDateFormat sdf = new SimpleDateFormat("M/d");
 
     for (Transaction t : set) {
-      System.out.printf("%-15s %-40s %-15.2f %-30s %n", sdf.format(t.getDate()), t.getVendor(), t.getAmount(), t.getDescription());
+      System.out.printf("%-15s %-40s %-15.2f %-20s %-30s %n", sdf.format(t.getDate()), t.getVendor(), t.getAmount(), t.getCategories().get(0).toUpperCase(), t.getDescription());
     }
   }
 

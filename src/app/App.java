@@ -70,7 +70,11 @@ public class App {
       int selection = 0;
 
       if (!input.isEmpty()) {
-        selection = Integer.parseInt(input);
+        try {
+          selection = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+          System.out.println("ERROR: Invalid input.\n\n");
+        }
       }
 
       switch (selection) {
@@ -170,7 +174,7 @@ public class App {
     System.out.print("Secondary Category => ");
     String options = "";
     switch (main) {
-      case "education": options = "Fee Supplies Textbooks Tuition"; break;
+      case "education": options = "fee, supplies, textbooks, tuition"; break;
     }
     System.out.print(options + ": ");
     String secondary = in.next();
