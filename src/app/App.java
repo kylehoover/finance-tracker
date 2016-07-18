@@ -3,6 +3,7 @@ package src.app;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ClassNotFoundException;
+import java.lang.NumberFormatException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -84,19 +85,19 @@ public class App {
 
   private void addTransaction() {
     System.out.print("Date (m/d/yyyy): ");
-    String date = in.next();
+    String input = in.next();
 
     // format date
-    if (date.length() <= 5)
-      date += "/" + Calendar.getInstance().get(Calendar.YEAR);
+    if (input.length() <= 5)
+      input += "/" + Calendar.getInstance().get(Calendar.YEAR);
 
     SimpleDateFormat sdf = new SimpleDateFormat("M/d/y");
-    Date d;
+    Date date;
 
     try {
-      d = sdf.parse(date);
+      date = sdf.parse(input);
     } catch (ParseException e) {
-      System.out.println(e);
+      System.out.println("\nERROR: An error occurred while parsing the date entered. Please try again.\n\n");
       return;
     }
 
@@ -104,17 +105,17 @@ public class App {
     String vendor = in.next();
 
     System.out.print("Amount: ");
-    Double amount = 0.0;
+    input = in.next();
+    double amount = 0.0;
 
     try {
-      amount = in.nextDouble();
-    } catch (InputMismatchException e) {
-      System.out.print("\nERROR: Invalid input. Please try again and enter a numebr.\n\n");
-      in = new Scanner(System.in);
+      amount = Double.parseDouble(input);
+    } catch (NumberFormatException e) {
+      System.out.print("\nERROR: Invalid input. Please enter a numebr and try again.\n\n");
       return;
     }
 
-    Transaction.Builder builder = new Transaction.Builder(amount, d, vendor);
+    Transaction.Builder builder = new Transaction.Builder(amount, date, vendor);
 
     System.out.print("Location: ");
     String location = in.next();
