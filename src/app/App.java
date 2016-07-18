@@ -101,7 +101,7 @@ public class App {
     try {
       date = sdf.parse(input);
     } catch (ParseException e) {
-      System.out.println("\nERROR: An error occurred while parsing the date entered. Please try again.\n\n");
+      System.out.print("\nERROR: An error occurred while parsing the date entered. Please try again.\n\n");
       return;
     }
 
@@ -115,7 +115,7 @@ public class App {
     try {
       amount = Double.parseDouble(input);
     } catch (NumberFormatException e) {
-      System.out.print("\nERROR: Invalid input. Please enter a numebr and try again.\n\n");
+      System.out.print("\nERROR: Invalid input. Please enter a number and try again.\n\n");
       return;
     }
 
@@ -207,11 +207,16 @@ public class App {
     int year = -1;
     int month = -1;
 
-    if (indexOfSpace == -1) {
-      year = Integer.parseInt(input);
-    } else {
-      year = Integer.parseInt(input.substring(0, indexOfSpace));
-      month = Integer.parseInt(input.substring(indexOfSpace + 1));
+    try {
+      if (indexOfSpace == -1) {
+        year = Integer.parseInt(input);
+      } else {
+        year = Integer.parseInt(input.substring(0, indexOfSpace));
+        month = Integer.parseInt(input.substring(indexOfSpace + 1));
+      }
+    } catch (NumberFormatException e) {
+      System.out.print("\nERROR: Invalid input.\n\n");
+      return;
     }
 
     System.out.println("\u001b[2J" + "\u001b[H");
@@ -243,11 +248,16 @@ public class App {
     int year = -1;
     int month = -1;
 
-    if (indexOfSpace == -1) {
-      year = Integer.parseInt(input);
-    } else {
-      year = Integer.parseInt(input.substring(0, indexOfSpace));
-      month = Integer.parseInt(input.substring(indexOfSpace + 1));
+    try {
+      if (indexOfSpace == -1) {
+        year = Integer.parseInt(input);
+      } else {
+        year = Integer.parseInt(input.substring(0, indexOfSpace));
+        month = Integer.parseInt(input.substring(indexOfSpace + 1));
+      }
+    } catch (NumberFormatException e) {
+      System.out.print("\nERROR: Invalid input.\n\n");
+      return;
     }
 
     System.out.println("\u001b[2J" + "\u001b[H");
