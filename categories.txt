@@ -18,6 +18,7 @@ Income
   - Gift
   - Investment => interest earned, dividends
   - Paycheck
+  - Payment
   - Reimbursement => tax refunds, store refunds
 Other
   - Church donation => tithing, fast offering, etc

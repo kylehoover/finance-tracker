@@ -56,10 +56,16 @@ public class Workbook {
     System.out.printf("%-15s %-40s %-15s %-20s %-30s %n", "----", "------", "------", "-------------", "-----------");
 
     SimpleDateFormat sdf = new SimpleDateFormat("M/d");
+    int numTransactions = 0;
+    double totalAmount = 0.0;
 
     for (Transaction t : set) {
       System.out.printf("%-15s %-40s %-15.2f %-20s %-30s %n", sdf.format(t.getDate()), t.getVendor(), t.getAmount(), t.getCategories().get(0).toUpperCase(), t.getDescription());
+      numTransactions++;
+      totalAmount += t.getAmount();
     }
+
+    System.out.printf("%n%-15s %-40d %-15.2f %n", "Totals", numTransactions, totalAmount);
   }
 
   public void printMonth(int year, int month) {
